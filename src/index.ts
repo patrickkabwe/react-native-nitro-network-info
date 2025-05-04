@@ -1,5 +1,8 @@
 import { NitroModules } from 'react-native-nitro-modules'
 import type { NitroNetworkInfo as NitroNetworkInfoSpec } from './specs/nitro-network-info.nitro'
+export type * from './types'
 
-export const NitroNetworkInfo =
-  NitroModules.createHybridObject<NitroNetworkInfoSpec>('NitroNetworkInfo')
+const NitroNetworkInfo =
+    NitroModules.createHybridObject<NitroNetworkInfoSpec>('NitroNetworkInfo')
+
+export default NitroNetworkInfo

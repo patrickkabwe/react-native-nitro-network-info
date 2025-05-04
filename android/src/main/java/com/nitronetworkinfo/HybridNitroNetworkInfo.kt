@@ -1,9 +1,34 @@
 package com.nitronetworkinfo
 
+import com.margelo.nitro.NitroModules
+import com.margelo.nitro.nitronetworkinfo.ConnectionType
 import com.margelo.nitro.nitronetworkinfo.HybridNitroNetworkInfoSpec
+import com.margelo.nitro.nitronetworkinfo.NitroNetworkStatusInfo
 
-class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec() {    
-    override fun sum(num1: Double, num2: Double): Double {
-        return num1 + num2
+
+class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec(), NetworkInfoDelegate {
+    private val context = NitroModules.applicationContext ?: throw Exception("Context is null")
+    private val nitroNetworkInfoImpl = NitroNetworkInfoImpl(context, this)
+    private var networkInfoStatusListener: ((NitroNetworkStatusInfo) -> Unit)? = null
+
+    override val isConnected: Boolean
+        get() = nitroNetworkInfoImpl.getIsConnection()
+    override val connectionType: ConnectionType
+        get() = nitroNetworkInfoImpl.getConnectionType()
+
+    override fun addListener(listener: (NitroNetworkStatusInfo) -> Unit): () -> Unit {
+        networkInfoStatusListener = listener
+        networkInfoStatusListener?.invoke(NitroNetworkStatusInfo(isConnected, connectionType))
+        return {
+            networkInfoStatusListener = null
+        }
+    }
+
+    override fun onNetworkInfoChanged(info: NitroNetworkStatusInfo) {
+        networkInfoStatusListener?.invoke(info)
+    }
+
+    companion object {
+        const val TAG = "NitroNetworkInfo"
     }
 }

@@ -1,5 +1,8 @@
 import { type HybridObject } from 'react-native-nitro-modules'
+import type { ConnectionType, NetworkInfoListener } from '../types'
 
 export interface NitroNetworkInfo extends HybridObject<{ ios: 'swift', android: 'kotlin' }> {
-  sum(num1: number, num2: number): number
+    readonly isConnected: boolean
+    readonly connectionType: ConnectionType
+    addListener(listener: NetworkInfoListener): () => void
 }
