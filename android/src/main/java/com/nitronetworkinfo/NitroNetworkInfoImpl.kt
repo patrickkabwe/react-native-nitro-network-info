@@ -41,18 +41,6 @@ class NitroNetworkInfoImpl(val context: Context, val delegate: NetworkInfoDelega
                 }
             }
 
-            override fun onUnavailable() {
-                super.onUnavailable()
-                Log.d(TAG, "Network is unavailable")
-                val  ni = NitroNetworkStatusInfo(
-                    isConnected = false,
-                    connectionType = ConnectionType.UNKNOWN
-                )
-                mainHandler.post {
-                    delegate?.onNetworkInfoChanged(ni)
-                }
-            }
-
             override fun onLost(network: Network) {
                 Log.d(TAG, "Network is lost")
                 val  ni = NitroNetworkStatusInfo(
@@ -64,17 +52,16 @@ class NitroNetworkInfoImpl(val context: Context, val delegate: NetworkInfoDelega
                 }
             }
         }
+        networkCallback?.let {
+            connectivityManager.registerNetworkCallback(request, it)
+        }
 
-        connectivityManager.registerNetworkCallback(
-            request,
-            networkCallback!!
-        )
     }
 
     fun getIsConnection(): Boolean {
         val network = connectivityManager.activeNetwork
-        val isConnected = connectivityManager.getNetworkInfo(network)?.isConnected == true
-        return isConnected
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     fun getConnectionType(): ConnectionType {
