@@ -68,15 +68,15 @@ class NitroNetworkInfoImpl(val context: Context, val delegate: NetworkInfoDelega
         val network = connectivityManager.activeNetwork
         val capabilities = connectivityManager.getNetworkCapabilities(network)
         val connectionType = when (true) {
-            (capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true) -> {
+            capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
                 ConnectionType.WIFI
             }
 
-            (capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true) -> {
+            capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
                 ConnectionType.CELLULAR
             }
 
-            (capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) == true) -> {
+            capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
                 ConnectionType.ETHERNET
             }
 
