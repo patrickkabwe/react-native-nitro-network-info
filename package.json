@@ -45,9 +45,9 @@
     "bugs": "https://github.com/patrickkabwe/react-native-nitro-network-info/issues",
     "homepage": "https://github.com/patrickkabwe/react-native-nitro-network-info#readme",
     "publishConfig": {
-        "registry": "https://registry.npmjs.org/",
-        "provenance": true
-    },
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+      },
     "devDependencies": {
         "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",
         "@types/jest": "^29.5.12",
