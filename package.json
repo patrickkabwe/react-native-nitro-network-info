@@ -1,6 +1,6 @@
 {
     "name": "react-native-nitro-network-info",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Nitro module package",
     "main": "./lib/commonjs/index.js",
     "module": "./lib/module/index.js",

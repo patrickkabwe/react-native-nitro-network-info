@@ -1,0 +1,16 @@
+## 1.0.0 (2025-06-05)
+
+### ✨ Features
+
+* init ([6d983bc](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/6d983bca1c3a72885271ddbd53cfd97d67129116))
+
+### 📚 Documentation
+
+* enhance README with detailed features, usage examples, and API reference for NitroNetworkInfo ([c25793c](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/c25793c4d30f3e5edd2d4d760f64a574f5bf353d))
+
+### 🛠️ Other changes
+
+* **ios:** adds NitroNetworkInfoImpl ([7734e9b](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/7734e9bdef0fec21b5956dc819c0456358e18fb8))
+* migrate to semantic-release and update release configuration ([3f10902](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/3f109026248c72d7732775734f7e8a9b68765cf2))
+* update nitro-codegen and react-native-nitro-modules to version 0.26.1 ([3695073](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/36950731a9f9869f633b690a10db313d230626a2))
+* update NitroModules to version 0.26.1 and adjust Podfile.lock paths ([836a7d2](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/836a7d25584cad5cce3176b0176aaa5fd652416a))
