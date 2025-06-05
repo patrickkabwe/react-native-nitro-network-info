@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.1...v1.0.2) (2025-06-05)
+
+### 🛠️ Other changes
+
+* update package.json to add additional keywords for better package discoverability ([fed4862](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/fed486256d4e7fddbcd32031dd892721f5c4067f))
+
 ## [1.0.1](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.0...v1.0.1) (2025-06-05)
 
 ### 🛠️ Other changes
