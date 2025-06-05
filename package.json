@@ -15,7 +15,14 @@
         "codegen": "nitro-codegen --logLevel=\"debug\" && bun run build && node post-script.js"
     },
     "keywords": [
-        "react-native"
+        "react-native",
+        "react-native-nitro-network-info",
+        "nitro",
+        "network",
+        "connection",
+        "wifi",
+        "cellular",
+        "ethernet"
     ],
     "files": [
         "src",
