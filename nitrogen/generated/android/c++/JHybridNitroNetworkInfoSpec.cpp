@@ -50,21 +50,20 @@ namespace margelo::nitro::nitronetworkinfo {
   }
 
   // Methods
-  std::function<void()> JHybridNitroNetworkInfoSpec::addListener(const std::function<void(const NitroNetworkStatusInfo&)>& listener) {
-      static const auto method = javaClassStatic()->getMethod<jni::local_ref<JFunc_void::javaobject>(jni::alias_ref<JFunc_void_NitroNetworkStatusInfo::javaobject>)>("addListener_cxx");
-
-      auto __result = method(_javaPart, JFunc_void_NitroNetworkStatusInfo_cxx::fromCpp(listener));
-
-      if (__result->isInstanceOf(JFunc_void_cxx::javaClassStatic())) {
-          return jni::static_ref_cast<JFunc_void_cxx::javaobject>(__result)->cthis()->getFunction();
+  std::function<void()> JHybridNitroNetworkInfoSpec::addListener(const std::function<void(const NitroNetworkStatusInfo& /* networkInfo */)>& listener) {
+    static const auto method = javaClassStatic()->getMethod<jni::local_ref<JFunc_void::javaobject>(jni::alias_ref<JFunc_void_NitroNetworkStatusInfo::javaobject> /* listener */)>("addListener_cxx");
+    auto __result = method(_javaPart, JFunc_void_NitroNetworkStatusInfo_cxx::fromCpp(listener));
+    return [&]() -> std::function<void()> {
+      if (__result->isInstanceOf(JFunc_void_cxx::javaClassStatic())) [[likely]] {
+        auto downcast = jni::static_ref_cast<JFunc_void_cxx::javaobject>(__result);
+        return downcast->cthis()->getFunction();
+      } else {
+        auto __resultRef = jni::make_global(__result);
+        return [__resultRef]() -> void {
+          return __resultRef->invoke();
+        };
       }
-
-      auto weakRef = jni::make_weak(__result);
-      return [weakRef]() {
-          if (auto strongRef = weakRef.lockLocal()) {
-              strongRef->invoke();
-          }
-      };
+    }();
   }
 
 } // namespace margelo::nitro::nitronetworkinfo

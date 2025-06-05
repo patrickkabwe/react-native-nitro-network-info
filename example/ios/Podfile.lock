@@ -8,7 +8,7 @@ PODS:
   - hermes-engine (0.78.0):
     - hermes-engine/Pre-built (= 0.78.0)
   - hermes-engine/Pre-built (0.78.0)
-  - NitroModules (0.25.1):
+  - NitroModules (0.26.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1583,7 +1583,7 @@ DEPENDENCIES:
   - fmt (from `../../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
-  - NitroModules (from `../../node_modules/react-native-nitro-modules`)
+  - NitroModules (from `../node_modules/react-native-nitro-modules`)
   - NitroNetworkInfo (from `../..`)
   - RCT-Folly (from `../../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -1668,7 +1668,7 @@ EXTERNAL SOURCES:
     :podspec: "../../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2025-01-13-RNv0.78.0-a942ef374897d85da38e9c8904574f8376555388
   NitroModules:
-    :path: "../../node_modules/react-native-nitro-modules"
+    :path: "../node_modules/react-native-nitro-modules"
   NitroNetworkInfo:
     :path: "../.."
   RCT-Folly:
@@ -1798,7 +1798,7 @@ SPEC CHECKSUMS:
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: eb93e2f488219332457c3c4eafd2738ddc7e80b8
   hermes-engine: b417d2b2aee3b89b58e63e23a51e02be91dc876d
-  NitroModules: 24a87ff968604843d38f28c8e1b878f6d70ec562
+  NitroModules: f8d95f8fe2949fbd0b95737f44e8e59ef6b224c2
   NitroNetworkInfo: caf1c9562e75cae832002512e4e95b57d4ffbd78
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
   RCTDeprecation: b2eecf2d60216df56bc5e6be5f063826d3c1ee35
@@ -1863,4 +1863,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 176b1e6685726d7b5c9c5552215ad970a79a5f5c
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
