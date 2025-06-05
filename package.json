@@ -1,6 +1,6 @@
 {
     "name": "react-native-nitro-network-info",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Nitro module package",
     "main": "./lib/commonjs/index.js",
     "module": "./lib/module/index.js",
@@ -47,7 +47,7 @@
     "publishConfig": {
         "access": "public",
         "registry": "https://registry.npmjs.org/"
-      },
+    },
     "devDependencies": {
         "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",
         "@types/jest": "^29.5.12",

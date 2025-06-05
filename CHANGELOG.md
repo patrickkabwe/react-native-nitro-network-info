@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.0...v1.0.1) (2025-06-05)
+
+### 🛠️ Other changes
+
+* update package.json to set public access for npm registry ([1797442](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/179744294d0033cdbcb51694e90047f96c8ab09c))
+
 ## 1.0.0 (2025-06-05)
 
 ### ✨ Features
