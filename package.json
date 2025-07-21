@@ -12,7 +12,8 @@
         "clean": "git clean -dfX",
         "release": "semantic-release",
         "build": "bun run typecheck && bob build",
-        "codegen": "nitro-codegen --logLevel=\"debug\" && bun run build && node post-script.js"
+        "codegen": "nitro-codegen --logLevel=\"debug\" && bun run build && node post-script.js",
+        "postcodegen": "bun --cwd example pod"
     },
     "keywords": [
         "react-native",
@@ -59,11 +60,11 @@
         "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",
         "@types/jest": "^29.5.12",
         "@types/react": "^19.0.10",
-        "nitro-codegen": "0.26.1",
-        "react": "19.0.0",
-        "react-native": "0.78.0",
+        "nitro-codegen": "^0.26.4",
+        "react": "19.1.0",
+        "react-native": "0.80.0",
         "react-native-builder-bob": "^0.37.0",
-        "react-native-nitro-modules": "0.26.1",
+        "react-native-nitro-modules": "^0.26.4",
         "release-it": "^19.0.2",
         "typescript": "5.0.4",
         "@semantic-release/changelog": "^6.0.3",
