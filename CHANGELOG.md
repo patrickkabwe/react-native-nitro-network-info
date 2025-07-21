@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.2...v1.0.3) (2025-07-21)
+
+### 🛠️ Other changes
+
+* bump up react native version 0.81 ([a4138f6](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/a4138f64741901e589d5fab1077d19f3a9b37208))
+* update gradle-wrapper.jar to the latest version ([11054a8](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/11054a84c681919662c380954772ef59e3949030))
+* update ReactCodegen version in Podfile.lock ([f459e4b](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/f459e4b440050385d43b951e5af5f29f1949bb69))
+
 ## [1.0.2](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.1...v1.0.2) (2025-06-05)
 
 ### 🛠️ Other changes
