@@ -63,7 +63,7 @@
         "nitro-codegen": "^0.26.4",
         "react": "19.1.0",
         "react-native": "0.80.0",
-        "react-native-builder-bob": "^0.37.0",
+        "react-native-builder-bob": "^0.40.13",
         "react-native-nitro-modules": "^0.26.4",
         "release-it": "^19.0.2",
         "typescript": "5.0.4",
