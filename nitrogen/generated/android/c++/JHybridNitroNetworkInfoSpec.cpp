@@ -37,6 +37,11 @@ namespace margelo::nitro::nitronetworkinfo {
     return method(_javaPart);
   }
 
+  void JHybridNitroNetworkInfoSpec::dispose() noexcept {
+    static const auto method = javaClassStatic()->getMethod<void()>("dispose");
+    method(_javaPart);
+  }
+
   // Properties
   bool JHybridNitroNetworkInfoSpec::getIsConnected() {
     static const auto method = javaClassStatic()->getMethod<jboolean()>("isConnected");

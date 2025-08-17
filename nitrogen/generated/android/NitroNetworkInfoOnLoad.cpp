@@ -18,7 +18,6 @@
 #include "JHybridNitroNetworkInfoSpec.hpp"
 #include "JFunc_void.hpp"
 #include "JFunc_void_NitroNetworkStatusInfo.hpp"
-#include <NitroModules/JNISharedPtr.hpp>
 #include <NitroModules/DefaultConstructableObject.hpp>
 
 namespace margelo::nitro::nitronetworkinfo {
@@ -41,7 +40,7 @@ int initialize(JavaVM* vm) {
         static DefaultConstructableObject<JHybridNitroNetworkInfoSpec::javaobject> object("com/nitronetworkinfo/HybridNitroNetworkInfo");
         auto instance = object.create();
         auto globalRef = jni::make_global(instance);
-        return JNISharedPtr::make_shared_from_jni<JHybridNitroNetworkInfoSpec>(globalRef);
+        return globalRef->cthis()->shared();
       }
     );
   });

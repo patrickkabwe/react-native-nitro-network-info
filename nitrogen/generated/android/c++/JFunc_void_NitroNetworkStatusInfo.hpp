@@ -10,8 +10,8 @@
 #include <fbjni/fbjni.h>
 #include <functional>
 
-#include <functional>
 #include "NitroNetworkStatusInfo.hpp"
+#include <functional>
 #include "JNitroNetworkStatusInfo.hpp"
 #include "ConnectionType.hpp"
 #include "JConnectionType.hpp"

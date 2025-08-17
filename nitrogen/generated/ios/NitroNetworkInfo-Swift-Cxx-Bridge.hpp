@@ -78,17 +78,17 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
     return Func_void_NitroNetworkStatusInfo_Wrapper(std::move(value));
   }
   
-  // pragma MARK: std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec>
+  // pragma MARK: std::shared_ptr<HybridNitroNetworkInfoSpec>
   /**
-   * Specialized version of `std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec>`.
+   * Specialized version of `std::shared_ptr<HybridNitroNetworkInfoSpec>`.
    */
-  using std__shared_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_ = std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec>;
-  std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec> create_std__shared_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer);
-  void* _Nonnull get_std__shared_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_(std__shared_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_ cppType);
+  using std__shared_ptr_HybridNitroNetworkInfoSpec_ = std::shared_ptr<HybridNitroNetworkInfoSpec>;
+  std::shared_ptr<HybridNitroNetworkInfoSpec> create_std__shared_ptr_HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer);
+  void* _Nonnull get_std__shared_ptr_HybridNitroNetworkInfoSpec_(std__shared_ptr_HybridNitroNetworkInfoSpec_ cppType);
   
-  // pragma MARK: std::weak_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec>
-  using std__weak_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_ = std::weak_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec>;
-  inline std__weak_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_ weakify_std__shared_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_(const std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec>& strong) { return strong; }
+  // pragma MARK: std::weak_ptr<HybridNitroNetworkInfoSpec>
+  using std__weak_ptr_HybridNitroNetworkInfoSpec_ = std::weak_ptr<HybridNitroNetworkInfoSpec>;
+  inline std__weak_ptr_HybridNitroNetworkInfoSpec_ weakify_std__shared_ptr_HybridNitroNetworkInfoSpec_(const std::shared_ptr<HybridNitroNetworkInfoSpec>& strong) { return strong; }
   
   // pragma MARK: Result<std::function<void()>>
   using Result_std__function_void____ = Result<std::function<void()>>;

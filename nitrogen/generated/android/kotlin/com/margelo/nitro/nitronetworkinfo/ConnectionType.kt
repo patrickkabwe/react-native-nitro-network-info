@@ -15,13 +15,9 @@ import com.facebook.proguard.annotations.DoNotStrip
  */
 @DoNotStrip
 @Keep
-enum class ConnectionType {
-  UNKNOWN,
-  ETHERNET,
-  WIFI,
-  CELLULAR;
-
-  @DoNotStrip
-  @Keep
-  private val _ordinal = ordinal
+enum class ConnectionType(@DoNotStrip @Keep val value: Int) {
+  UNKNOWN(0),
+  ETHERNET(1),
+  WIFI(2),
+  CELLULAR(3);
 }

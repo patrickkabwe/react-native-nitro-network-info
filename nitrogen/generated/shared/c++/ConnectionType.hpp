@@ -39,28 +39,26 @@ namespace margelo::nitro::nitronetworkinfo {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::nitronetworkinfo;
-
   // C++ ConnectionType <> JS ConnectionType (union)
   template <>
-  struct JSIConverter<ConnectionType> final {
-    static inline ConnectionType fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::nitronetworkinfo::ConnectionType> final {
+    static inline margelo::nitro::nitronetworkinfo::ConnectionType fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("unknown"): return ConnectionType::UNKNOWN;
-        case hashString("ethernet"): return ConnectionType::ETHERNET;
-        case hashString("wifi"): return ConnectionType::WIFI;
-        case hashString("cellular"): return ConnectionType::CELLULAR;
+        case hashString("unknown"): return margelo::nitro::nitronetworkinfo::ConnectionType::UNKNOWN;
+        case hashString("ethernet"): return margelo::nitro::nitronetworkinfo::ConnectionType::ETHERNET;
+        case hashString("wifi"): return margelo::nitro::nitronetworkinfo::ConnectionType::WIFI;
+        case hashString("cellular"): return margelo::nitro::nitronetworkinfo::ConnectionType::CELLULAR;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum ConnectionType - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, ConnectionType arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::nitronetworkinfo::ConnectionType arg) {
       switch (arg) {
-        case ConnectionType::UNKNOWN: return JSIConverter<std::string>::toJSI(runtime, "unknown");
-        case ConnectionType::ETHERNET: return JSIConverter<std::string>::toJSI(runtime, "ethernet");
-        case ConnectionType::WIFI: return JSIConverter<std::string>::toJSI(runtime, "wifi");
-        case ConnectionType::CELLULAR: return JSIConverter<std::string>::toJSI(runtime, "cellular");
+        case margelo::nitro::nitronetworkinfo::ConnectionType::UNKNOWN: return JSIConverter<std::string>::toJSI(runtime, "unknown");
+        case margelo::nitro::nitronetworkinfo::ConnectionType::ETHERNET: return JSIConverter<std::string>::toJSI(runtime, "ethernet");
+        case margelo::nitro::nitronetworkinfo::ConnectionType::WIFI: return JSIConverter<std::string>::toJSI(runtime, "wifi");
+        case margelo::nitro::nitronetworkinfo::ConnectionType::CELLULAR: return JSIConverter<std::string>::toJSI(runtime, "cellular");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert ConnectionType to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

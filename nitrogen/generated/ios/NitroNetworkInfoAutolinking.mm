@@ -24,7 +24,7 @@
   HybridObjectRegistry::registerHybridObjectConstructor(
     "NitroNetworkInfo",
     []() -> std::shared_ptr<HybridObject> {
-      std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec> hybridObject = NitroNetworkInfo::NitroNetworkInfoAutolinking::createNitroNetworkInfo();
+      std::shared_ptr<HybridNitroNetworkInfoSpec> hybridObject = NitroNetworkInfo::NitroNetworkInfoAutolinking::createNitroNetworkInfo();
       return hybridObject;
     }
   );
