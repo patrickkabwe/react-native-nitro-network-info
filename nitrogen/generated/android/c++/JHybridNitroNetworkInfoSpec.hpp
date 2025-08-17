@@ -29,6 +29,7 @@ namespace margelo::nitro::nitronetworkinfo {
     // C++ constructor (called from Java via `initHybrid()`)
     explicit JHybridNitroNetworkInfoSpec(jni::alias_ref<jhybridobject> jThis) :
       HybridObject(HybridNitroNetworkInfoSpec::TAG),
+      HybridBase(jThis),
       _javaPart(jni::make_global(jThis)) {}
 
   public:
@@ -39,6 +40,7 @@ namespace margelo::nitro::nitronetworkinfo {
 
   public:
     size_t getExternalMemorySize() noexcept override;
+    void dispose() noexcept override;
 
   public:
     inline const jni::global_ref<JHybridNitroNetworkInfoSpec::javaobject>& getJavaPart() const noexcept {

@@ -42,22 +42,20 @@ namespace margelo::nitro::nitronetworkinfo {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::nitronetworkinfo;
-
   // C++ NitroNetworkStatusInfo <> JS NitroNetworkStatusInfo (object)
   template <>
-  struct JSIConverter<NitroNetworkStatusInfo> final {
-    static inline NitroNetworkStatusInfo fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::nitronetworkinfo::NitroNetworkStatusInfo> final {
+    static inline margelo::nitro::nitronetworkinfo::NitroNetworkStatusInfo fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return NitroNetworkStatusInfo(
+      return margelo::nitro::nitronetworkinfo::NitroNetworkStatusInfo(
         JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, "isConnected")),
-        JSIConverter<ConnectionType>::fromJSI(runtime, obj.getProperty(runtime, "connectionType"))
+        JSIConverter<margelo::nitro::nitronetworkinfo::ConnectionType>::fromJSI(runtime, obj.getProperty(runtime, "connectionType"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const NitroNetworkStatusInfo& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::nitronetworkinfo::NitroNetworkStatusInfo& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "isConnected", JSIConverter<bool>::toJSI(runtime, arg.isConnected));
-      obj.setProperty(runtime, "connectionType", JSIConverter<ConnectionType>::toJSI(runtime, arg.connectionType));
+      obj.setProperty(runtime, "connectionType", JSIConverter<margelo::nitro::nitronetworkinfo::ConnectionType>::toJSI(runtime, arg.connectionType));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -66,7 +64,7 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, "isConnected"))) return false;
-      if (!JSIConverter<ConnectionType>::canConvert(runtime, obj.getProperty(runtime, "connectionType"))) return false;
+      if (!JSIConverter<margelo::nitro::nitronetworkinfo::ConnectionType>::canConvert(runtime, obj.getProperty(runtime, "connectionType"))) return false;
       return true;
     }
   };

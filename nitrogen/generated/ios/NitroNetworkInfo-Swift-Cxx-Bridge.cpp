@@ -29,18 +29,18 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
     };
   }
   
-  // pragma MARK: std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec>
-  std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpec> create_std__shared_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer) {
+  // pragma MARK: std::shared_ptr<HybridNitroNetworkInfoSpec>
+  std::shared_ptr<HybridNitroNetworkInfoSpec> create_std__shared_ptr_HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer) {
     NitroNetworkInfo::HybridNitroNetworkInfoSpec_cxx swiftPart = NitroNetworkInfo::HybridNitroNetworkInfoSpec_cxx::fromUnsafe(swiftUnsafePointer);
     return std::make_shared<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpecSwift>(swiftPart);
   }
-  void* _Nonnull get_std__shared_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_(std__shared_ptr_margelo__nitro__nitronetworkinfo__HybridNitroNetworkInfoSpec_ cppType) {
+  void* _Nonnull get_std__shared_ptr_HybridNitroNetworkInfoSpec_(std__shared_ptr_HybridNitroNetworkInfoSpec_ cppType) {
     std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpecSwift>(cppType);
-  #ifdef NITRO_DEBUG
+    #ifdef NITRO_DEBUG
     if (swiftWrapper == nullptr) [[unlikely]] {
       throw std::runtime_error("Class \"HybridNitroNetworkInfoSpec\" is not implemented in Swift!");
     }
-  #endif
+    #endif
     NitroNetworkInfo::HybridNitroNetworkInfoSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }

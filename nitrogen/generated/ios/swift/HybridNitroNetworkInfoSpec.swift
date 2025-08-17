@@ -19,8 +19,9 @@ public protocol HybridNitroNetworkInfoSpec_protocol: HybridObject {
 }
 
 /// See ``HybridNitroNetworkInfoSpec``
-public class HybridNitroNetworkInfoSpec_base {
+open class HybridNitroNetworkInfoSpec_base {
   private weak var cxxWrapper: HybridNitroNetworkInfoSpec_cxx? = nil
+  public init() { }
   public func getCxxWrapper() -> HybridNitroNetworkInfoSpec_cxx {
   #if DEBUG
     guard self is HybridNitroNetworkInfoSpec else {
