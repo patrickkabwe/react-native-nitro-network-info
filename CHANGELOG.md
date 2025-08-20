@@ -1,3 +1,11 @@
+## [1.0.4](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.3...v1.0.4) (2025-08-20)
+
+### 🛠️ Other changes
+
+* add Xcode setup step to iOS build workflow with version 16.4 ([4c6daac](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/4c6daacb9d301f78f58f45ada7acbee1e63d2cfd))
+* **release:** add Git author and committer information to workflow ([86f3ffb](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/86f3ffbab46d68b619c8f4953d50fc4aae6dbe51))
+* update dependencies and configurations ([633b4cf](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/633b4cfe5368de347a1fdf44d6e1239d4165058a))
+
 ## [1.0.3](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.2...v1.0.3) (2025-07-21)
 
 ### 🛠️ Other changes
