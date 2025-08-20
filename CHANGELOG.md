@@ -1,3 +1,9 @@
+## [1.0.5](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.4...v1.0.5) (2025-08-20)
+
+### 🛠️ Other changes
+
+* update package.json ([ad5c107](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/ad5c107c4ccb9abe2ed231d359d13fbf9a716a22))
+
 ## [1.0.4](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.3...v1.0.4) (2025-08-20)
 
 ### 🛠️ Other changes
