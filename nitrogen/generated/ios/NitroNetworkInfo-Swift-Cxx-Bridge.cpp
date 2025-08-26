@@ -14,7 +14,7 @@
 namespace margelo::nitro::nitronetworkinfo::bridge::swift {
 
   // pragma MARK: std::function<void()>
-  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper) {
+  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = NitroNetworkInfo::Func_void::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)]() mutable -> void {
       swiftClosure.call();
@@ -22,7 +22,7 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const NitroNetworkStatusInfo& /* networkInfo */)>
-  Func_void_NitroNetworkStatusInfo create_Func_void_NitroNetworkStatusInfo(void* _Nonnull swiftClosureWrapper) {
+  Func_void_NitroNetworkStatusInfo create_Func_void_NitroNetworkStatusInfo(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = NitroNetworkInfo::Func_void_NitroNetworkStatusInfo::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const NitroNetworkStatusInfo& networkInfo) mutable -> void {
       swiftClosure.call(networkInfo);
@@ -30,11 +30,11 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
   }
   
   // pragma MARK: std::shared_ptr<HybridNitroNetworkInfoSpec>
-  std::shared_ptr<HybridNitroNetworkInfoSpec> create_std__shared_ptr_HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer) {
+  std::shared_ptr<HybridNitroNetworkInfoSpec> create_std__shared_ptr_HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer) noexcept {
     NitroNetworkInfo::HybridNitroNetworkInfoSpec_cxx swiftPart = NitroNetworkInfo::HybridNitroNetworkInfoSpec_cxx::fromUnsafe(swiftUnsafePointer);
     return std::make_shared<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpecSwift>(swiftPart);
   }
-  void* _Nonnull get_std__shared_ptr_HybridNitroNetworkInfoSpec_(std__shared_ptr_HybridNitroNetworkInfoSpec_ cppType) {
+  void* _Nonnull get_std__shared_ptr_HybridNitroNetworkInfoSpec_(std__shared_ptr_HybridNitroNetworkInfoSpec_ cppType) noexcept {
     std::shared_ptr<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::nitronetworkinfo::HybridNitroNetworkInfoSpecSwift>(cppType);
     #ifdef NITRO_DEBUG
     if (swiftWrapper == nullptr) [[unlikely]] {
