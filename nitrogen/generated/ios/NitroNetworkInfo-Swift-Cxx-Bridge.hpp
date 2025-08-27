@@ -45,14 +45,14 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
   class Func_void_Wrapper final {
   public:
     explicit Func_void_Wrapper(std::function<void()>&& func): _function(std::make_unique<std::function<void()>>(std::move(func))) {}
-    inline void call() const {
+    inline void call() const noexcept {
       _function->operator()();
     }
   private:
     std::unique_ptr<std::function<void()>> _function;
   } SWIFT_NONCOPYABLE;
-  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_Wrapper wrap_Func_void(Func_void value) {
+  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_Wrapper wrap_Func_void(Func_void value) noexcept {
     return Func_void_Wrapper(std::move(value));
   }
   
@@ -67,14 +67,14 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
   class Func_void_NitroNetworkStatusInfo_Wrapper final {
   public:
     explicit Func_void_NitroNetworkStatusInfo_Wrapper(std::function<void(const NitroNetworkStatusInfo& /* networkInfo */)>&& func): _function(std::make_unique<std::function<void(const NitroNetworkStatusInfo& /* networkInfo */)>>(std::move(func))) {}
-    inline void call(NitroNetworkStatusInfo networkInfo) const {
+    inline void call(NitroNetworkStatusInfo networkInfo) const noexcept {
       _function->operator()(networkInfo);
     }
   private:
     std::unique_ptr<std::function<void(const NitroNetworkStatusInfo& /* networkInfo */)>> _function;
   } SWIFT_NONCOPYABLE;
-  Func_void_NitroNetworkStatusInfo create_Func_void_NitroNetworkStatusInfo(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_NitroNetworkStatusInfo_Wrapper wrap_Func_void_NitroNetworkStatusInfo(Func_void_NitroNetworkStatusInfo value) {
+  Func_void_NitroNetworkStatusInfo create_Func_void_NitroNetworkStatusInfo(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_NitroNetworkStatusInfo_Wrapper wrap_Func_void_NitroNetworkStatusInfo(Func_void_NitroNetworkStatusInfo value) noexcept {
     return Func_void_NitroNetworkStatusInfo_Wrapper(std::move(value));
   }
   
@@ -83,19 +83,19 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
    * Specialized version of `std::shared_ptr<HybridNitroNetworkInfoSpec>`.
    */
   using std__shared_ptr_HybridNitroNetworkInfoSpec_ = std::shared_ptr<HybridNitroNetworkInfoSpec>;
-  std::shared_ptr<HybridNitroNetworkInfoSpec> create_std__shared_ptr_HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer);
-  void* _Nonnull get_std__shared_ptr_HybridNitroNetworkInfoSpec_(std__shared_ptr_HybridNitroNetworkInfoSpec_ cppType);
+  std::shared_ptr<HybridNitroNetworkInfoSpec> create_std__shared_ptr_HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer) noexcept;
+  void* _Nonnull get_std__shared_ptr_HybridNitroNetworkInfoSpec_(std__shared_ptr_HybridNitroNetworkInfoSpec_ cppType) noexcept;
   
   // pragma MARK: std::weak_ptr<HybridNitroNetworkInfoSpec>
   using std__weak_ptr_HybridNitroNetworkInfoSpec_ = std::weak_ptr<HybridNitroNetworkInfoSpec>;
-  inline std__weak_ptr_HybridNitroNetworkInfoSpec_ weakify_std__shared_ptr_HybridNitroNetworkInfoSpec_(const std::shared_ptr<HybridNitroNetworkInfoSpec>& strong) { return strong; }
+  inline std__weak_ptr_HybridNitroNetworkInfoSpec_ weakify_std__shared_ptr_HybridNitroNetworkInfoSpec_(const std::shared_ptr<HybridNitroNetworkInfoSpec>& strong) noexcept { return strong; }
   
   // pragma MARK: Result<std::function<void()>>
   using Result_std__function_void____ = Result<std::function<void()>>;
-  inline Result_std__function_void____ create_Result_std__function_void____(const std::function<void()>& value) {
+  inline Result_std__function_void____ create_Result_std__function_void____(const std::function<void()>& value) noexcept {
     return Result<std::function<void()>>::withValue(value);
   }
-  inline Result_std__function_void____ create_Result_std__function_void____(const std::exception_ptr& error) {
+  inline Result_std__function_void____ create_Result_std__function_void____(const std::exception_ptr& error) noexcept {
     return Result<std::function<void()>>::withError(error);
   }
 

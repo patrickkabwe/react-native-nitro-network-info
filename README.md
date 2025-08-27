@@ -18,7 +18,7 @@ A React Native library for monitoring network connectivity status and connection
 ## Installation
 
 ```bash
-bun add react-native-nitro-network-info react-native-nitro-modules
+bun add react-native-nitro-network-info react-native-nitro-modules@0.28.1
 ```
 
 ## Usage
