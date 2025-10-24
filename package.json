@@ -1,6 +1,6 @@
 {
     "name": "react-native-nitro-network-info",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "A React Native library for monitoring network connectivity status and connection type using Nitro Modules for high performance",
     "main": "./lib/commonjs/index.js",
     "module": "./lib/module/index.js",

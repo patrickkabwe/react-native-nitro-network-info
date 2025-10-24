@@ -1,3 +1,12 @@
+## [1.0.6](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.5...v1.0.6) (2025-10-24)
+
+### 🛠️ Other changes
+
+* bump up nitro to version 0.28.1 ([5fb061d](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/5fb061d0753c46c554263da5d0ff6c646fd11f3f))
+* bump up react native to 0.82, ([9ddf1de](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/9ddf1de81d9e073f2e5ce887c9f674adb43df502))
+* remove old architecture build steps from Android and iOS workflows ([30c783a](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/30c783a4842c327842b1e833212183075d739aeb))
+* update nitro 0.31.2 ([389a49c](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/389a49c249abf69069a2ea151eaa31c0e9d9dc7e))
+
 ## [1.0.5](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.4...v1.0.5) (2025-08-20)
 
 ### 🛠️ Other changes
