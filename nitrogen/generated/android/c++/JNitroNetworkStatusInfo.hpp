@@ -48,7 +48,11 @@ namespace margelo::nitro::nitronetworkinfo {
      */
     [[maybe_unused]]
     static jni::local_ref<JNitroNetworkStatusInfo::javaobject> fromCpp(const NitroNetworkStatusInfo& value) {
-      return newInstance(
+      using JSignature = JNitroNetworkStatusInfo(jboolean, jni::alias_ref<JConnectionType>);
+      static const auto clazz = javaClassStatic();
+      static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
+      return create(
+        clazz,
         value.isConnected,
         JConnectionType::fromCpp(value.connectionType)
       );

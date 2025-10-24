@@ -9,7 +9,6 @@ package com.margelo.nitro.nitronetworkinfo
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import com.margelo.nitro.core.*
 
 
 /**
@@ -17,16 +16,24 @@ import com.margelo.nitro.core.*
  */
 @DoNotStrip
 @Keep
-data class NitroNetworkStatusInfo
+data class NitroNetworkStatusInfo(
   @DoNotStrip
   @Keep
-  constructor(
+  val isConnected: Boolean,
+  @DoNotStrip
+  @Keep
+  val connectionType: ConnectionType
+) {
+  private companion object {
+    /**
+     * Constructor called from C++
+     */
     @DoNotStrip
     @Keep
-    val isConnected: Boolean,
-    @DoNotStrip
-    @Keep
-    val connectionType: ConnectionType
-  ) {
-  /* main constructor */
+    @Suppress("unused")
+    @JvmStatic
+    private fun fromCpp(isConnected: Boolean, connectionType: ConnectionType): NitroNetworkStatusInfo {
+      return NitroNetworkStatusInfo(isConnected, connectionType)
+    }
+  }
 }
