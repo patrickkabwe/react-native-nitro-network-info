@@ -51,7 +51,7 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
   private:
     std::unique_ptr<std::function<void()>> _function;
   } SWIFT_NONCOPYABLE;
-  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper) noexcept;
+  Func_void create_Func_void(void* NON_NULL swiftClosureWrapper) noexcept;
   inline Func_void_Wrapper wrap_Func_void(Func_void value) noexcept {
     return Func_void_Wrapper(std::move(value));
   }
@@ -73,7 +73,7 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
   private:
     std::unique_ptr<std::function<void(const NitroNetworkStatusInfo& /* networkInfo */)>> _function;
   } SWIFT_NONCOPYABLE;
-  Func_void_NitroNetworkStatusInfo create_Func_void_NitroNetworkStatusInfo(void* _Nonnull swiftClosureWrapper) noexcept;
+  Func_void_NitroNetworkStatusInfo create_Func_void_NitroNetworkStatusInfo(void* NON_NULL swiftClosureWrapper) noexcept;
   inline Func_void_NitroNetworkStatusInfo_Wrapper wrap_Func_void_NitroNetworkStatusInfo(Func_void_NitroNetworkStatusInfo value) noexcept {
     return Func_void_NitroNetworkStatusInfo_Wrapper(std::move(value));
   }
@@ -83,8 +83,8 @@ namespace margelo::nitro::nitronetworkinfo::bridge::swift {
    * Specialized version of `std::shared_ptr<HybridNitroNetworkInfoSpec>`.
    */
   using std__shared_ptr_HybridNitroNetworkInfoSpec_ = std::shared_ptr<HybridNitroNetworkInfoSpec>;
-  std::shared_ptr<HybridNitroNetworkInfoSpec> create_std__shared_ptr_HybridNitroNetworkInfoSpec_(void* _Nonnull swiftUnsafePointer) noexcept;
-  void* _Nonnull get_std__shared_ptr_HybridNitroNetworkInfoSpec_(std__shared_ptr_HybridNitroNetworkInfoSpec_ cppType) noexcept;
+  std::shared_ptr<HybridNitroNetworkInfoSpec> create_std__shared_ptr_HybridNitroNetworkInfoSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
+  void* NON_NULL get_std__shared_ptr_HybridNitroNetworkInfoSpec_(std__shared_ptr_HybridNitroNetworkInfoSpec_ cppType);
   
   // pragma MARK: std::weak_ptr<HybridNitroNetworkInfoSpec>
   using std__weak_ptr_HybridNitroNetworkInfoSpec_ = std::weak_ptr<HybridNitroNetworkInfoSpec>;
