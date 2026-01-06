@@ -16,7 +16,8 @@ class NitroNetworkInfoImpl {
     var nwPathMonitor = NWPathMonitor()
     weak var delegate: NitroNetworkInfoDelegate?
     var nwPath: NWPath?
-    var isConnected: Bool = false {
+    private(set) var connectionType: ConnectionType = .unknown
+    private(set) var isConnected: Bool = false {
         didSet {
 #if DEBUG
             print("isConnected: \(isConnected)")
@@ -24,20 +25,25 @@ class NitroNetworkInfoImpl {
         }
     }
     
-    init() {
-        nwPathMonitor.start(queue: .global(qos: .background))
-        nwPathMonitor.pathUpdateHandler = { path in
-            DispatchQueue.main.async { [weak self] in
+    func start() {
+        nwPathMonitor.pathUpdateHandler = { [weak self] path in
+            DispatchQueue.main.async {
                 guard let self else { return }
-                let ni = NitroNetworkStatusInfo(
-                    isConnected: path.status == .satisfied,
-                    connectionType: self.getConnectionType()
-                )
-                self.isConnected = path.status == .satisfied
+
                 self.nwPath = path
-                self.delegate?.nitroNetworkInfoDidChange(ni)
+                self.isConnected = (path.status == .satisfied)
+
+                if path.usesInterfaceType(.cellular) { self.connectionType = .cellular }
+                else if path.usesInterfaceType(.wifi) { self.connectionType = .wifi }
+                else if path.usesInterfaceType(.wiredEthernet) { self.connectionType = .ethernet }
+                else { self.connectionType = .unknown }
+
+                self.delegate?.nitroNetworkInfoDidChange(
+                    NitroNetworkStatusInfo(isConnected: self.isConnected, connectionType: self.connectionType)
+                )
             }
         }
+        nwPathMonitor.start(queue: .global(qos: .background))
     }
     
     func getIsConnected() -> Bool {
@@ -45,20 +51,11 @@ class NitroNetworkInfoImpl {
     }
     
     func getConnectionType() -> ConnectionType {
-        switch true {
-        case nwPath?.usesInterfaceType(.cellular):
-            return .cellular
-        case nwPath?.usesInterfaceType(.wifi):
-            return .wifi
-        case nwPath?.usesInterfaceType(.wiredEthernet):
-            return .ethernet
-        default:
-            return .unknown
-        }
+        return connectionType
     }
     
-    func unregister() {
-        self.delegate = nil
+    func stop() {
         nwPathMonitor.cancel()
+        self.delegate = nil
     }
 }
