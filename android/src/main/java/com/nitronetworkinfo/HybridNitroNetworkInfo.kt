@@ -18,17 +18,15 @@ class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec(), NetworkInfoDelegate 
 
     override fun addListener(listener: (NitroNetworkStatusInfo) -> Unit): () -> Unit {
         networkInfoStatusListener = listener
-        networkInfoStatusListener?.invoke(NitroNetworkStatusInfo(isConnected, connectionType))
+        nitroNetworkInfoImpl.start()
+        listener(NitroNetworkStatusInfo(isConnected, connectionType))
         return {
             networkInfoStatusListener = null
+            nitroNetworkInfoImpl.stop()
         }
     }
 
     override fun onNetworkInfoChanged(info: NitroNetworkStatusInfo) {
         networkInfoStatusListener?.invoke(info)
-    }
-
-    companion object {
-        const val TAG = "NitroNetworkInfo"
     }
 }

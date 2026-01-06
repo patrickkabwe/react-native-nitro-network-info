@@ -23,12 +23,14 @@ class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec {
     
     func addListener(listener: @escaping (NitroNetworkStatusInfo) -> Void) throws -> () -> Void {
         networkInfoStatusListener = listener
-        
-        DispatchQueue.main.async { [unowned self] in
+        nitrogenNetworkInfoImpl.start()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
             self.networkInfoStatusListener?(
                 NitroNetworkStatusInfo(
-                    isConnected: isConnected,
-                    connectionType: connectionType
+                    isConnected: self.isConnected,
+                    connectionType: self.connectionType
                 )
             )
             
@@ -37,11 +39,12 @@ class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec {
 
         return { [weak self] in
             self?.networkInfoStatusListener = nil
+            self?.nitrogenNetworkInfoImpl.stop()
         }
     }
     
     deinit {
-        self.nitrogenNetworkInfoImpl.unregister()
+        self.nitrogenNetworkInfoImpl.stop()
     }
 }
 

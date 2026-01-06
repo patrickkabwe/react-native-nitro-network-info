@@ -10,52 +10,52 @@ import android.os.Looper
 import android.util.Log
 import com.margelo.nitro.nitronetworkinfo.ConnectionType
 import com.margelo.nitro.nitronetworkinfo.NitroNetworkStatusInfo
+import java.lang.ref.WeakReference
 
 interface NetworkInfoDelegate {
     fun onNetworkInfoChanged(info: NitroNetworkStatusInfo)
 }
 
-class NitroNetworkInfoImpl(val context: Context, val delegate: NetworkInfoDelegate? = null) {
+class NitroNetworkInfoImpl(context: Context, delegate: NetworkInfoDelegate? = null) {
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
     private val mainHandler = Handler(Looper.getMainLooper())
+    private val delegateRef = WeakReference(delegate)
 
-    init {
-        registerNetworkCallback()
-    }
+    @Synchronized
+    fun start() {
+        if (networkCallback != null) return
 
-    private fun registerNetworkCallback() {
         val request = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
 
-        networkCallback =   object : ConnectivityManager.NetworkCallback() {
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 Log.d(TAG, "Network is available")
-                val  ni = NitroNetworkStatusInfo(
+                emit(NitroNetworkStatusInfo(
                     isConnected = true,
                     connectionType = getConnectionType()
-                )
-                mainHandler.post {
-                    delegate?.onNetworkInfoChanged(ni)
-                }
+                ))
             }
 
             override fun onLost(network: Network) {
                 Log.d(TAG, "Network is lost")
-                val  ni = NitroNetworkStatusInfo(
+                emit(NitroNetworkStatusInfo(
                     isConnected = false,
                     connectionType = ConnectionType.UNKNOWN
-                )
-                mainHandler.post {
-                    delegate?.onNetworkInfoChanged(ni)
-                }
+                ))
             }
         }
         networkCallback?.let {
             connectivityManager.registerNetworkCallback(request, it)
         }
+    }
 
+    fun emit(info: NitroNetworkStatusInfo){
+        mainHandler.post {
+            delegateRef.get()?.onNetworkInfoChanged(info)
+        }
     }
 
     fun getIsConnection(): Boolean {
@@ -85,9 +85,14 @@ class NitroNetworkInfoImpl(val context: Context, val delegate: NetworkInfoDelega
         return connectionType
     }
 
-    fun unregister() {
+    fun stop() {
+        mainHandler.removeCallbacksAndMessages(null)
+
         networkCallback?.let {
-            connectivityManager.unregisterNetworkCallback(it)
+            try { connectivityManager.unregisterNetworkCallback(it) }
+            catch (e: IllegalArgumentException) {
+                Log.w(TAG, "Network callback already unregistered", e)
+            }
         }
         networkCallback = null
     }
