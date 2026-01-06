@@ -1,3 +1,16 @@
+## [1.0.7](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.6...v1.0.7) (2026-01-06)
+
+### 🐛 Bug Fixes
+
+* improve error handling when unregistering network callback ([2919317](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/29193179998d1e6cf05b8a92e443e4f9efdb7620))
+* manage network callback lifecycle and refresh example app ([23765ca](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/23765caf63c5e5aa8ac76c75aa0cd7f20ccabcbd))
+* synchronize network monitoring initialization and ensure safe access to NWPathMonitor ([09e587f](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/09e587f52ee937683e022d7084aa81f6ff60b135))
+
+### 🛠️ Other changes
+
+* remove unused permissions from release workflow ([fed5251](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/fed525139dcf1b2e616db48edb324cf0ec589adc))
+* update release workflow permissions and add Node.js setup ([d73887e](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/d73887ea1ea421082b73845943a6df54eebe0f1a))
+
 ## [1.0.6](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.5...v1.0.6) (2025-10-24)
 
 ### 🛠️ Other changes
