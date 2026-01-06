@@ -22,6 +22,7 @@ class NitroNetworkInfoImpl(context: Context, delegate: NetworkInfoDelegate? = nu
     private val mainHandler = Handler(Looper.getMainLooper())
     private val delegateRef = WeakReference(delegate)
 
+    @Synchronized
     fun start() {
         if (networkCallback != null) return
 

@@ -13,7 +13,7 @@ protocol NitroNetworkInfoDelegate: AnyObject {
 }
 
 class NitroNetworkInfoImpl {
-    var nwPathMonitor = NWPathMonitor()
+    var nwPathMonitor: NWPathMonitor? = nil
     weak var delegate: NitroNetworkInfoDelegate?
     var nwPath: NWPath?
     private(set) var connectionType: ConnectionType = .unknown
@@ -26,7 +26,9 @@ class NitroNetworkInfoImpl {
     }
     
     func start() {
-        nwPathMonitor.pathUpdateHandler = { [weak self] path in
+        nwPathMonitor = NWPathMonitor()
+        
+        nwPathMonitor?.pathUpdateHandler = { [weak self] path in
             DispatchQueue.main.async {
                 guard let self else { return }
 
@@ -43,7 +45,7 @@ class NitroNetworkInfoImpl {
                 )
             }
         }
-        nwPathMonitor.start(queue: .global(qos: .background))
+        nwPathMonitor?.start(queue: .global(qos: .background))
     }
     
     func getIsConnected() -> Bool {
@@ -55,7 +57,7 @@ class NitroNetworkInfoImpl {
     }
     
     func stop() {
-        nwPathMonitor.cancel()
+        nwPathMonitor?.cancel()
         self.delegate = nil
     }
 }
