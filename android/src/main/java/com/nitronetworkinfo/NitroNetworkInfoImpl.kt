@@ -89,7 +89,9 @@ class NitroNetworkInfoImpl(context: Context, delegate: NetworkInfoDelegate? = nu
 
         networkCallback?.let {
             try { connectivityManager.unregisterNetworkCallback(it) }
-            catch (_: IllegalArgumentException) {}
+            catch (e: IllegalArgumentException) {
+                Log.w(TAG, "Network callback already unregistered", e)
+            }
         }
         networkCallback = null
     }
