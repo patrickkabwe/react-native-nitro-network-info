@@ -6,20 +6,27 @@
 ///
 
 #include <jni.h>
+#include <functional>
 #include <NitroModules/NitroDefines.hpp>
 
 namespace margelo::nitro::nitronetworkinfo {
 
+  [[deprecated("Use registerNatives() instead.")]]
+  int initialize(JavaVM* vm);
+
   /**
-   * Initializes the native (C++) part of NitroNetworkInfo, and autolinks all Hybrid Objects.
-   * Call this in your `JNI_OnLoad` function (probably inside `cpp-adapter.cpp`).
+   * Register the native (C++) part of NitroNetworkInfo, and autolinks all Hybrid Objects.
+   * Call this in your `JNI_OnLoad` function (probably inside `cpp-adapter.cpp`),
+   * inside a `facebook::jni::initialize(vm, ...)` call.
    * Example:
    * ```cpp (cpp-adapter.cpp)
    * JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void*) {
-   *   return margelo::nitro::nitronetworkinfo::initialize(vm);
+   *   return facebook::jni::initialize(vm, []() {
+   *     margelo::nitro::nitronetworkinfo::registerAllNatives();
+   *   });
    * }
    * ```
    */
-  int initialize(JavaVM* vm);
+  void registerAllNatives();
 
 } // namespace margelo::nitro::nitronetworkinfo

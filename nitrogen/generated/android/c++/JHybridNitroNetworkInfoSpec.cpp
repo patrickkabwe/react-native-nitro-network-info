@@ -23,47 +23,48 @@ namespace margelo::nitro::nitronetworkinfo { struct NitroNetworkStatusInfo; }
 
 namespace margelo::nitro::nitronetworkinfo {
 
-  jni::local_ref<JHybridNitroNetworkInfoSpec::jhybriddata> JHybridNitroNetworkInfoSpec::initHybrid(jni::alias_ref<jhybridobject> jThis) {
+  std::shared_ptr<JHybridNitroNetworkInfoSpec> JHybridNitroNetworkInfoSpec::JavaPart::getJHybridNitroNetworkInfoSpec() {
+    auto hybridObject = JHybridObject::JavaPart::getJHybridObject();
+    auto castHybridObject = std::dynamic_pointer_cast<JHybridNitroNetworkInfoSpec>(hybridObject);
+    if (castHybridObject == nullptr) [[unlikely]] {
+      throw std::runtime_error("Failed to downcast JHybridObject to JHybridNitroNetworkInfoSpec!");
+    }
+    return castHybridObject;
+  }
+
+  jni::local_ref<JHybridNitroNetworkInfoSpec::CxxPart::jhybriddata> JHybridNitroNetworkInfoSpec::CxxPart::initHybrid(jni::alias_ref<jhybridobject> jThis) {
     return makeCxxInstance(jThis);
   }
 
-  void JHybridNitroNetworkInfoSpec::registerNatives() {
+  std::shared_ptr<JHybridObject> JHybridNitroNetworkInfoSpec::CxxPart::createHybridObject(const jni::local_ref<JHybridObject::JavaPart>& javaPart) {
+    auto castJavaPart = jni::dynamic_ref_cast<JHybridNitroNetworkInfoSpec::JavaPart>(javaPart);
+    if (castJavaPart == nullptr) [[unlikely]] {
+      throw std::runtime_error("Failed to cast JHybridObject::JavaPart to JHybridNitroNetworkInfoSpec::JavaPart!");
+    }
+    return std::make_shared<JHybridNitroNetworkInfoSpec>(castJavaPart);
+  }
+
+  void JHybridNitroNetworkInfoSpec::CxxPart::registerNatives() {
     registerHybrid({
-      makeNativeMethod("initHybrid", JHybridNitroNetworkInfoSpec::initHybrid),
+      makeNativeMethod("initHybrid", JHybridNitroNetworkInfoSpec::CxxPart::initHybrid),
     });
-  }
-
-  size_t JHybridNitroNetworkInfoSpec::getExternalMemorySize() noexcept {
-    static const auto method = javaClassStatic()->getMethod<jlong()>("getMemorySize");
-    return method(_javaPart);
-  }
-
-  void JHybridNitroNetworkInfoSpec::dispose() noexcept {
-    static const auto method = javaClassStatic()->getMethod<void()>("dispose");
-    method(_javaPart);
-  }
-
-  std::string JHybridNitroNetworkInfoSpec::toString() {
-    static const auto method = javaClassStatic()->getMethod<jni::JString()>("toString");
-    auto javaString = method(_javaPart);
-    return javaString->toStdString();
   }
 
   // Properties
   bool JHybridNitroNetworkInfoSpec::getIsConnected() {
-    static const auto method = javaClassStatic()->getMethod<jboolean()>("isConnected");
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jboolean()>("isConnected");
     auto __result = method(_javaPart);
     return static_cast<bool>(__result);
   }
   ConnectionType JHybridNitroNetworkInfoSpec::getConnectionType() {
-    static const auto method = javaClassStatic()->getMethod<jni::local_ref<JConnectionType>()>("getConnectionType");
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JConnectionType>()>("getConnectionType");
     auto __result = method(_javaPart);
     return __result->toCpp();
   }
 
   // Methods
   std::function<void()> JHybridNitroNetworkInfoSpec::addListener(const std::function<void(const NitroNetworkStatusInfo& /* networkInfo */)>& listener) {
-    static const auto method = javaClassStatic()->getMethod<jni::local_ref<JFunc_void::javaobject>(jni::alias_ref<JFunc_void_NitroNetworkStatusInfo::javaobject> /* listener */)>("addListener_cxx");
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JFunc_void::javaobject>(jni::alias_ref<JFunc_void_NitroNetworkStatusInfo::javaobject> /* listener */)>("addListener_cxx");
     auto __result = method(_javaPart, JFunc_void_NitroNetworkStatusInfo_cxx::fromCpp(listener));
     return [&]() -> std::function<void()> {
       if (__result->isInstanceOf(JFunc_void_cxx::javaClassStatic())) [[likely]] {
