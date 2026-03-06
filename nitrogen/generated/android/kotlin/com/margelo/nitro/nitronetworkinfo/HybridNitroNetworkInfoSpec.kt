@@ -24,35 +24,18 @@ import com.margelo.nitro.core.HybridObject
   "LocalVariableName", "PropertyName", "PrivatePropertyName", "FunctionName"
 )
 abstract class HybridNitroNetworkInfoSpec: HybridObject() {
-  @DoNotStrip
-  private var mHybridData: HybridData = initHybrid()
-
-  init {
-    super.updateNative(mHybridData)
-  }
-
-  override fun updateNative(hybridData: HybridData) {
-    mHybridData = hybridData
-    super.updateNative(hybridData)
-  }
-
-  // Default implementation of `HybridObject.toString()`
-  override fun toString(): String {
-    return "[HybridObject NitroNetworkInfo]"
-  }
-
   // Properties
   @get:DoNotStrip
   @get:Keep
   abstract val isConnected: Boolean
-  
+
   @get:DoNotStrip
   @get:Keep
   abstract val connectionType: ConnectionType
 
   // Methods
   abstract fun addListener(listener: (networkInfo: NitroNetworkStatusInfo) -> Unit): () -> Unit
-  
+
   @DoNotStrip
   @Keep
   private fun addListener_cxx(listener: Func_void_NitroNetworkStatusInfo): Func_void {
@@ -60,7 +43,20 @@ abstract class HybridNitroNetworkInfoSpec: HybridObject() {
     return Func_void_java(__result)
   }
 
-  private external fun initHybrid(): HybridData
+  // Default implementation of `HybridObject.toString()`
+  override fun toString(): String {
+    return "[HybridObject NitroNetworkInfo]"
+  }
+
+  // C++ backing class
+  @DoNotStrip
+  @Keep
+  protected open class CxxPart(javaPart: HybridNitroNetworkInfoSpec): HybridObject.CxxPart(javaPart) {
+    external override fun initHybrid(): HybridData
+  }
+  override fun createCxxPart(): CxxPart {
+    return CxxPart(this)
+  }
 
   companion object {
     protected const val TAG = "HybridNitroNetworkInfoSpec"

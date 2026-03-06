@@ -1,6 +1,7 @@
-#include <jni.h>
 #include "NitroNetworkInfoOnLoad.hpp"
+#include <fbjni/fbjni.h>
+#include <jni.h>
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void*) {
-  return margelo::nitro::nitronetworkinfo::initialize(vm);
+  return facebook::jni::initialize(vm, []() { margelo::nitro::nitronetworkinfo::registerAllNatives(); });
 }

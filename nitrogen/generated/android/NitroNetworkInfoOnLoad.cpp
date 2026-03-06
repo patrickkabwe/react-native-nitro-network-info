@@ -23,26 +23,36 @@
 namespace margelo::nitro::nitronetworkinfo {
 
 int initialize(JavaVM* vm) {
+  return facebook::jni::initialize(vm, []() {
+    ::margelo::nitro::nitronetworkinfo::registerAllNatives();
+  });
+}
+
+struct JHybridNitroNetworkInfoSpecImpl: public facebook::jni::JavaClass<JHybridNitroNetworkInfoSpecImpl, JHybridNitroNetworkInfoSpec::JavaPart> {
+  static auto constexpr kJavaDescriptor = "Lcom/nitronetworkinfo/HybridNitroNetworkInfo;";
+  static std::shared_ptr<JHybridNitroNetworkInfoSpec> create() {
+    static auto constructorFn = javaClassStatic()->getConstructor<JHybridNitroNetworkInfoSpecImpl::javaobject()>();
+    facebook::jni::local_ref<JHybridNitroNetworkInfoSpec::JavaPart> javaPart = javaClassStatic()->newObject(constructorFn);
+    return javaPart->getJHybridNitroNetworkInfoSpec();
+  }
+};
+
+void registerAllNatives() {
   using namespace margelo::nitro;
   using namespace margelo::nitro::nitronetworkinfo;
-  using namespace facebook;
 
-  return facebook::jni::initialize(vm, [] {
-    // Register native JNI methods
-    margelo::nitro::nitronetworkinfo::JHybridNitroNetworkInfoSpec::registerNatives();
-    margelo::nitro::nitronetworkinfo::JFunc_void_cxx::registerNatives();
-    margelo::nitro::nitronetworkinfo::JFunc_void_NitroNetworkStatusInfo_cxx::registerNatives();
+  // Register native JNI methods
+  margelo::nitro::nitronetworkinfo::JHybridNitroNetworkInfoSpec::CxxPart::registerNatives();
+  margelo::nitro::nitronetworkinfo::JFunc_void_cxx::registerNatives();
+  margelo::nitro::nitronetworkinfo::JFunc_void_NitroNetworkStatusInfo_cxx::registerNatives();
 
-    // Register Nitro Hybrid Objects
-    HybridObjectRegistry::registerHybridObjectConstructor(
-      "NitroNetworkInfo",
-      []() -> std::shared_ptr<HybridObject> {
-        static DefaultConstructableObject<JHybridNitroNetworkInfoSpec::javaobject> object("com/nitronetworkinfo/HybridNitroNetworkInfo");
-        auto instance = object.create();
-        return instance->cthis()->shared();
-      }
-    );
-  });
+  // Register Nitro Hybrid Objects
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "NitroNetworkInfo",
+    []() -> std::shared_ptr<HybridObject> {
+      return JHybridNitroNetworkInfoSpecImpl::create();
+    }
+  );
 }
 
 } // namespace margelo::nitro::nitronetworkinfo
