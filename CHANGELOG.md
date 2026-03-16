@@ -1,3 +1,14 @@
+## [1.0.8](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.7...v1.0.8) (2026-03-16)
+
+### 🐛 Bug Fixes
+
+* **android:** update nitrogen-generated code to CxxPart/JavaPart pattern ([87ccac4](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/87ccac4f13abd9298e71cc5aa760b12629ed3b79))
+
+### 🛠️ Other changes
+
+* bump up nitro modules ([fd42a95](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/fd42a957de6dfbba9c070e4f4a129df95675b584))
+* update react-native-nitro-modules to 0.35.0 ([7018899](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/7018899e27d28aee0dd14ab9fa7bccc470502586))
+
 ## [1.0.7](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.6...v1.0.7) (2026-01-06)
 
 ### 🐛 Bug Fixes
