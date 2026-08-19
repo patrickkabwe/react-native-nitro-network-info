@@ -1,11 +1,13 @@
 package com.nitronetworkinfo
 
+import com.facebook.proguard.annotations.DoNotStrip
 import com.margelo.nitro.NitroModules
 import com.margelo.nitro.nitronetworkinfo.ConnectionType
 import com.margelo.nitro.nitronetworkinfo.HybridNitroNetworkInfoSpec
 import com.margelo.nitro.nitronetworkinfo.NitroNetworkStatusInfo
 
 
+@DoNotStrip
 class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec(), NetworkInfoDelegate {
     private val context = NitroModules.applicationContext ?: throw Exception("Context is null")
     private val nitroNetworkInfoImpl = NitroNetworkInfoImpl(context, this)
