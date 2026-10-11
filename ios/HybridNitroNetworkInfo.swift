@@ -10,46 +10,64 @@ import Foundation
 typealias NetworkInfoListener = (NitroNetworkStatusInfo) -> Void
 
 class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec {
-    private var nitrogenNetworkInfoImpl = NitroNetworkInfoImpl()
-    private var networkInfoStatusListener: ((NitroNetworkStatusInfo) -> Void)? = nil
+    private let nitrogenNetworkInfoImpl = NitroNetworkInfoImpl()
+    private let lock = NSLock()
+    private var listeners: [UInt64: NetworkInfoListener] = [:]
+    private var nextListenerId: UInt64 = 0
+
+    override init() {
+        super.init()
+        nitrogenNetworkInfoImpl.delegate = self
+    }
 
     var isConnected: Bool {
-        get { nitrogenNetworkInfoImpl.getIsConnected() }
+        nitrogenNetworkInfoImpl.current.isConnected
     }
-    
+
     var connectionType: ConnectionType {
-        get { nitrogenNetworkInfoImpl.getConnectionType() }
+        nitrogenNetworkInfoImpl.current.connectionType
     }
-    
-    func addListener(listener: @escaping (NitroNetworkStatusInfo) -> Void) throws -> () -> Void {
-        networkInfoStatusListener = listener
-        nitrogenNetworkInfoImpl.start()
+
+    /// Adds a listener beside any others; the function returned removes only
+    /// this one. The listener is called once with the current status, then on
+    /// every change.
+    func addListener(listener: @escaping NetworkInfoListener) throws -> () -> Void {
+        lock.lock()
+        let id = nextListenerId
+        nextListenerId += 1
+        listeners[id] = listener
+        lock.unlock()
+
+        // On main, behind any change already queued there, so the listener
+        // never sees an older status after a newer one. Before the monitor's
+        // first answer there is nothing to give, and nothing is waited for:
+        // the first path is delivered to every listener registered by then.
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            self.networkInfoStatusListener?(
-                NitroNetworkStatusInfo(
-                    isConnected: self.isConnected,
-                    connectionType: self.connectionType
-                )
-            )
-            
-            self.nitrogenNetworkInfoImpl.delegate = self
+            guard let self, self.isListening(id),
+                  let status = self.nitrogenNetworkInfoImpl.currentIfKnown else { return }
+            listener(status)
         }
 
         return { [weak self] in
-            self?.networkInfoStatusListener = nil
-            self?.nitrogenNetworkInfoImpl.stop()
+            guard let self else { return }
+            self.lock.lock()
+            self.listeners.removeValue(forKey: id)
+            self.lock.unlock()
         }
     }
-    
-    deinit {
-        self.nitrogenNetworkInfoImpl.stop()
+
+    private func isListening(_ id: UInt64) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return listeners[id] != nil
     }
 }
 
 extension HybridNitroNetworkInfo: NitroNetworkInfoDelegate {
     func nitroNetworkInfoDidChange(_ nitroNetworkInfo: NitroNetworkStatusInfo) {
-        self.networkInfoStatusListener?(nitroNetworkInfo)
+        lock.lock()
+        let current = Array(listeners.values)
+        lock.unlock()
+        current.forEach { $0(nitroNetworkInfo) }
     }
 }
