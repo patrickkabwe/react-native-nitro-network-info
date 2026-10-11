@@ -17,115 +17,103 @@ interface NetworkInfoDelegate {
 }
 
 /**
- * Tracks every network that offers internet, not just the one that changed.
+ * Watches every network that offers internet for as long as it exists.
  *
- * A handover — Wi-Fi to cellular at a door — is a loss and a gain moments
- * apart, and `onLost` for the Wi-Fi often arrives while cellular is already
- * up. Reporting "disconnected" on every `onLost` told apps the phone was
- * offline when it was not. So each callback only updates the set of live
- * networks, the status is derived from that set and the active network, and
- * a status is emitted only when it actually differs from the last one.
+ * Reading the status never leaves the process: it is one volatile read of a
+ * value the network callback keeps current. Asking ConnectivityManager on each
+ * read would be two binder calls into system_server, synchronously on the JS
+ * thread, every time JavaScript touched `isConnected`.
+ *
+ * The status is derived from the whole set of live networks, not from the one
+ * that changed. A handover — Wi-Fi to cellular at a door — is a loss and a gain
+ * moments apart, and `onLost` for the Wi-Fi often arrives while cellular is
+ * already up; reporting that as "disconnected" was wrong.
  */
 class NitroNetworkInfoImpl(context: Context, delegate: NetworkInfoDelegate? = null) {
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    private var networkCallback: ConnectivityManager.NetworkCallback? = null
     private val mainHandler = Handler(Looper.getMainLooper())
     private val delegateRef = WeakReference(delegate)
-    private val networks = mutableSetOf<Network>()
-    private var lastEmitted: NitroNetworkStatusInfo? = null
 
-    @Synchronized
-    fun start() {
-        if (networkCallback != null) return
+    // Written only on the connectivity callback thread, read from any thread.
+    @Volatile
+    var status: NitroNetworkStatusInfo = queryStatus()
+        private set
 
-        lastEmitted = currentStatus()
+    // Confined to the connectivity callback thread, which delivers every
+    // callback below in order, so it needs no lock.
+    private val networks = HashMap<Network, NetworkCapabilities?>()
 
+    private val callback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            // One binder call per network appearing, which is rare. Below API
+            // 26 no onCapabilitiesChanged is guaranteed to follow.
+            networks[network] = connectivityManager.getNetworkCapabilities(network)
+            recompute()
+        }
+
+        override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+            // Cellular signal strength alone fires this every few seconds; the
+            // capabilities arrive with it, and recompute drops what changed
+            // nothing anybody reads.
+            networks[network] = networkCapabilities
+            recompute()
+        }
+
+        override fun onLost(network: Network) {
+            networks.remove(network)
+            recompute()
+        }
+    }
+
+    init {
         val request = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
-
-        val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                synchronized(this@NitroNetworkInfoImpl) { networks.add(network) }
-                emitIfChanged()
-            }
-
-            override fun onLost(network: Network) {
-                synchronized(this@NitroNetworkInfoImpl) { networks.remove(network) }
-                emitIfChanged()
-            }
-
-            // Wi-Fi ↔ cellular as the default network, without either being lost.
-            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-                emitIfChanged()
-            }
-        }
-        networkCallback = callback
         connectivityManager.registerNetworkCallback(request, callback)
     }
 
-    @Synchronized
-    fun stop() {
+    fun dispose() {
         mainHandler.removeCallbacksAndMessages(null)
-
-        networkCallback?.let {
-            try { connectivityManager.unregisterNetworkCallback(it) }
-            catch (e: IllegalArgumentException) {
-                Log.w(TAG, "Network callback already unregistered", e)
-            }
-        }
-        networkCallback = null
-        networks.clear()
-        lastEmitted = null
-    }
-
-    /** Connected while any internet network is up, even if not yet the active one. */
-    @Synchronized
-    fun getIsConnection(): Boolean {
-        return networks.isNotEmpty() || activeHasInternet()
-    }
-
-    @Synchronized
-    fun getConnectionType(): ConnectionType {
-        val active = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        val capabilities = active ?: networks.firstNotNullOfOrNull { connectivityManager.getNetworkCapabilities(it) }
-        return when {
-            capabilities == null -> ConnectionType.UNKNOWN
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> ConnectionType.WIFI
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> ConnectionType.CELLULAR
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> ConnectionType.ETHERNET
-            else -> ConnectionType.UNKNOWN
+        try {
+            connectivityManager.unregisterNetworkCallback(callback)
+        } catch (e: IllegalArgumentException) {
+            Log.w(TAG, "Network callback already unregistered", e)
         }
     }
 
-    @Synchronized
-    fun currentStatus(): NitroNetworkStatusInfo {
-        val connected = getIsConnection()
-        return NitroNetworkStatusInfo(
-            isConnected = connected,
-            connectionType = if (connected) getConnectionType() else ConnectionType.UNKNOWN
-        )
+    private fun recompute() {
+        val next = statusOf(networks.values)
+        if (next == status) return
+        status = next
+        mainHandler.post { delegateRef.get()?.onNetworkInfoChanged(next) }
     }
 
-    private fun emitIfChanged() {
-        val status: NitroNetworkStatusInfo
-        synchronized(this) {
-            if (networkCallback == null) return
-            status = currentStatus()
-            if (status == lastEmitted) return
-            lastEmitted = status
-        }
-        mainHandler.post {
-            delegateRef.get()?.onNetworkInfoChanged(status)
-        }
-    }
-
-    private fun activeHasInternet(): Boolean {
+    /** The starting status, asked once before the callback has reported. */
+    private fun queryStatus(): NitroNetworkStatusInfo {
         val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+            ?.takeIf { it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) }
+        return statusOf(listOfNotNull(capabilities))
     }
 
     companion object {
         const val TAG = "NitroNetworkInfo"
+
+        /**
+         * Connected while any internet network is up. The type is the one
+         * Android itself prefers as the default — ethernet, then Wi-Fi, then
+         * cellular — so no binder call is needed to ask which that is.
+         */
+        private fun statusOf(capabilities: Collection<NetworkCapabilities?>): NitroNetworkStatusInfo {
+            if (capabilities.isEmpty()) {
+                return NitroNetworkStatusInfo(isConnected = false, connectionType = ConnectionType.UNKNOWN)
+            }
+            val type = when {
+                capabilities.any { it?.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) == true } -> ConnectionType.ETHERNET
+                capabilities.any { it?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true } -> ConnectionType.WIFI
+                capabilities.any { it?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true } -> ConnectionType.CELLULAR
+                else -> ConnectionType.UNKNOWN
+            }
+            return NitroNetworkStatusInfo(isConnected = true, connectionType = type)
+        }
     }
 }

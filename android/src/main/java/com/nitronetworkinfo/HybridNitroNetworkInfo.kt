@@ -15,31 +15,28 @@ class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec(), NetworkInfoDelegate 
     private val nextListenerId = AtomicLong(0)
 
     override val isConnected: Boolean
-        get() = nitroNetworkInfoImpl.getIsConnection()
+        get() = nitroNetworkInfoImpl.status.isConnected
     override val connectionType: ConnectionType
-        get() = nitroNetworkInfoImpl.currentStatus().connectionType
+        get() = nitroNetworkInfoImpl.status.connectionType
 
     /**
      * Adds a listener beside any others; the function returned removes only
-     * this one. Monitoring runs while at least one listener is registered.
+     * this one. The listener is called once with the current status, then on
+     * every change.
      */
     override fun addListener(listener: (NitroNetworkStatusInfo) -> Unit): () -> Unit {
         val id = nextListenerId.getAndIncrement()
-        synchronized(listeners) {
-            listeners[id] = listener
-            nitroNetworkInfoImpl.start()
-        }
-        listener(nitroNetworkInfoImpl.currentStatus())
-        return {
-            synchronized(listeners) {
-                if (listeners.remove(id) != null && listeners.isEmpty()) {
-                    nitroNetworkInfoImpl.stop()
-                }
-            }
-        }
+        listeners[id] = listener
+        listener(nitroNetworkInfoImpl.status)
+        return { listeners.remove(id) }
     }
 
     override fun onNetworkInfoChanged(info: NitroNetworkStatusInfo) {
         listeners.values.forEach { it(info) }
+    }
+
+    override fun dispose() {
+        nitroNetworkInfoImpl.dispose()
+        super.dispose()
     }
 }

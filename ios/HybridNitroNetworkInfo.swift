@@ -38,9 +38,14 @@ class HybridNitroNetworkInfo: HybridNitroNetworkInfoSpec {
         listeners[id] = listener
         lock.unlock()
 
+        // On main, behind any change already queued there, so the listener
+        // never sees an older status after a newer one. Before the monitor's
+        // first answer there is nothing to give, and nothing is waited for:
+        // the first path is delivered to every listener registered by then.
         DispatchQueue.main.async { [weak self] in
-            guard let self, self.isListening(id) else { return }
-            listener(self.nitrogenNetworkInfoImpl.current)
+            guard let self, self.isListening(id),
+                  let status = self.nitrogenNetworkInfoImpl.currentIfKnown else { return }
+            listener(status)
         }
 
         return { [weak self] in
