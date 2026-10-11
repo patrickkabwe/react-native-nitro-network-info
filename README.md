@@ -89,6 +89,8 @@ const connectionType = NitroNetworkInfo.connectionType
 
 Adds a listener for network status changes. Returns a function to unsubscribe the listener.
 
+Any number of listeners can be registered; each unsubscribe function removes only its own listener. A new listener is called once with the current status, then whenever the status changes — a Wi-Fi to cellular handover is reported as a change of `connectionType`, not as a disconnection.
+
 **Parameters:**
 
 - `listener: NetworkInfoListener` - Callback function that receives network status updates
