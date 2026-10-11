@@ -1,3 +1,17 @@
+## [1.0.9-next.1](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.8...v1.0.9-next.1) (2026-10-11)
+
+### 🐛 Bug Fixes
+
+* support multiple listeners and report connectivity accurately ([fb43007](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/fb43007afcacb2a6d56f950c3cf3b3a2ef4e7b2d))
+
+### 💨 Performance Improvements
+
+* read status without IPC on Android and without blocking init on iOS ([4b64594](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/4b6459496c543146aeaad099f48adc42d4b0cda7))
+
+### 📚 Documentation
+
+* add MIT LICENSE file ([b9ec5db](https://github.com/patrickkabwe/react-native-nitro-network-info/commit/b9ec5db1cbead38c237421bdff2e65fcbe3ec1fa))
+
 ## [1.0.8](https://github.com/patrickkabwe/react-native-nitro-network-info/compare/v1.0.7...v1.0.8) (2026-03-16)
 
 ### 🐛 Bug Fixes
